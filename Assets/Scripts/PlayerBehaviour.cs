@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -88,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Apply Movement to Player
 
         charCtrl.Move(distance);
-        
+
     }
 
     float AngleBetweenPoints(Vector2 a, Vector2 b)
