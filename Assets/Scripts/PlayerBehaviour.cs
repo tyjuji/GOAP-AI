@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    int walkSpeed = 5;
+
+    public GameObject playerBullet;
+    public int walkSpeed = 10;
 
     CharacterController charCtrl;
-    Camera cam;
 
     // Start is called before the first frame update
     void Start()
@@ -13,7 +15,6 @@ public class PlayerBehaviour : MonoBehaviour
         charCtrl = GetComponent<CharacterController>();
         charCtrl.enableOverlapRecovery = false;
         charCtrl.detectCollisions = false;
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -25,24 +26,19 @@ public class PlayerBehaviour : MonoBehaviour
     private void Update()
     {
         LookRotation();
+        Shooting();
+    }
+
+    private void Shooting()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(playerBullet, gameObject.transform.position, gameObject.transform.rotation);
+        }
     }
 
     private void LookRotation()
     {
-        //Vector3 pos = Input.mousePosition;
-
-        //var worldpos = cam.ScreenToWorldPoint(pos + 100f * Vector3.forward);
-        //Debug.Log(pos + " | " + worldpos);
-        ////worldpos.y = 0;
-        //transform.LookAt(worldpos);
-        //transform.rotation.eulerAngles.x = 0;
-
-        //Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
-        //Debug.Log(Input.mousePosition + " | " + mousePos);
-        //transform.Rotate()
-
-
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y);
         Vector3 lookPos = Camera.main.ScreenToWorldPoint(mousePos);
         //lookPos = lookPos - transform.position;
@@ -53,18 +49,6 @@ public class PlayerBehaviour : MonoBehaviour
         oldangles.x = 0;
         oldangles.z = 0;
         transform.eulerAngles = oldangles;
-
-
-        //Mouse Position in the world. It's important to give it some distance from the camera. 
-        //If the screen point is calculated right from the exact position of the camera, then it will
-        ////just return the exact same position as the camera, which is no good.
-        //Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10f);
-
-        ////Angle between mouse and this object
-        //float angle = AngleBetweenPoints(transform.position, mouseWorldPosition);
-
-        ////Ta daa
-        //transform.rotation = Quaternion.Euler(new Vector3(0f, angle, 0f));
     }
 
     private void CharacterMovement()
@@ -74,8 +58,10 @@ public class PlayerBehaviour : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         // Calculate the Direction to Move based on the tranform of the Player
-        Vector3 moveDirectionForward = transform.forward * verticalInput;
-        Vector3 moveDirectionSide = transform.right * horizontalInput;
+        //Vector3 moveDirectionForward = transform.forward * verticalInput;
+        //Vector3 moveDirectionSide = transform.right * horizontalInput;
+        Vector3 moveDirectionForward = Vector3.forward * verticalInput;
+        Vector3 moveDirectionSide = Vector3.right * horizontalInput;
 
         //find the direction
         Vector3 direction = (moveDirectionForward + moveDirectionSide).normalized;
