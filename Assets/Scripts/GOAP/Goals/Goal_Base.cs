@@ -1,15 +1,5 @@
 using UnityEngine;
 
-public interface IGoal
-{
-    int CalculatePriority();
-    bool CanRun();
-
-    void OnTickGoal();
-    void OnGoalActivated(Action_Base _linkedAction);
-    void OnGoalDeactivated();
-}
-
 public class Goal_Base : MonoBehaviour, IGoal
 {
     //protected CharacterAgent Agent;

@@ -33,6 +33,7 @@ public class PlayerBulletBehaviour : MonoBehaviour
         else if (other.CompareTag("Enemy"))
         {
             Debug.Log("collided enemy");
+            other.GetComponent<LifeHandler>().LoseHealth();
             Destroy(gameObject);
         }
         else

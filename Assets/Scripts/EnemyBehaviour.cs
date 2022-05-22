@@ -10,7 +10,7 @@ public class EnemyBehaviour : MonoBehaviour
     //int walkSpeed = 5;
 
     NavMeshAgent navMeshAgent;
-
+    LifeHandler lifeHandler;
     GameObject player;
     Rigidbody rb;
 
@@ -23,6 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         rb = navMeshAgent.GetComponent<Rigidbody>();
+        lifeHandler = GetComponent<LifeHandler>();
 
 
         //navMeshAgent.updatePosition = false;
@@ -62,11 +63,13 @@ public class EnemyBehaviour : MonoBehaviour
         }
         return false;
     }
+    
     private void Shooting()
     {
-        if (Time.time > _lastShot + 0.3f)
+        if (Time.time > _lastShot + 0.3f && lifeHandler.Ammo > 0)
         {
             Instantiate(enemyBullet, gameObject.transform.position, gameObject.transform.rotation);
+            lifeHandler.UseAmmo();
             _lastShot = Time.time;
         }
     }

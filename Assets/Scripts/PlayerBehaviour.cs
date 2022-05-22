@@ -1,13 +1,19 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-
+    public const float shieldCooldown = 10f;
+    private const int shieldDuration = 5;
     public GameObject playerBullet;
     public int walkSpeed = 10;
 
     CharacterController charCtrl;
+    LifeHandler lifeHandler;
+    GameObject shield;
+    //private bool shieldActive = false;
+    private float ShieldLastUse = -shieldCooldown;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +21,9 @@ public class PlayerBehaviour : MonoBehaviour
         charCtrl = GetComponent<CharacterController>();
         charCtrl.enableOverlapRecovery = false;
         charCtrl.detectCollisions = false;
+        lifeHandler = GetComponent<LifeHandler>();
+        shield = transform.Find("Shield").gameObject;
+        shield.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,13 +36,40 @@ public class PlayerBehaviour : MonoBehaviour
     {
         LookRotation();
         Shooting();
+        Shield();
+    }
+
+    private void Shield()
+    {
+        if(Input.GetButton("Shield") && Time.time > ShieldLastUse + shieldCooldown)
+        {
+            StartCoroutine(ShieldOff());
+        }
+    }
+
+    private IEnumerator ShieldOff()
+    {
+        shield.SetActive(true);
+        //shieldActive = true;
+        yield return new WaitForSeconds(shieldDuration);
+        ShieldLastUse = Time.time;
+        shield.SetActive(false);
+        //shieldActive = false;
     }
 
     private void Shooting()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(playerBullet, gameObject.transform.position, gameObject.transform.rotation);
+            if (lifeHandler.Ammo > 0)
+            {
+                Instantiate(playerBullet, gameObject.transform.position, gameObject.transform.rotation);
+                lifeHandler.UseAmmo();
+            }
+            else
+            {
+                Debug.Log("No ammo left)");
+            }
         }
     }
 

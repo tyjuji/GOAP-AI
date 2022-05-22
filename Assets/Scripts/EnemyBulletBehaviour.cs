@@ -25,6 +25,7 @@ public class EnemyBulletBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Shot player");
+            other.GetComponent<LifeHandler>().LoseHealth();
             Destroy(gameObject);
         }
         else if (other.CompareTag("Gun"))
