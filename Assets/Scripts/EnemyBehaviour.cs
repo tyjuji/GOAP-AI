@@ -7,16 +7,11 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public GameObject enemyBullet;
 
-
     NavMeshAgent navMeshAgent;
     LifeHandler lifeHandler;
     GameObject player;
     GameObject[] ammoPickups;
     GameObject[] healthPickups;
-
-
-    float _lastShot = 0;
-
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +53,7 @@ public class EnemyBehaviour : MonoBehaviour
             navMeshAgent.updateRotation = false;
             transform.LookAt(player.transform.position);
             //https://africacomicade.org/predictable-projectile-in-unity/
-            Shooting();
+            lifeHandler.Shoot();
         }
         else
         {
@@ -111,15 +106,15 @@ public class EnemyBehaviour : MonoBehaviour
         return false;
     }
 
-    private void Shooting()
-    {
-        if (Time.time > _lastShot + 0.3f && lifeHandler.Ammo > 0)
-        {
-            Instantiate(enemyBullet, gameObject.transform.position, gameObject.transform.rotation);
-            lifeHandler.UseAmmo();
-            _lastShot = Time.time;
-        }
-    }
+    //private void Shooting()
+    //{
+    //    if (Time.time > _lastShot + 0.3f && lifeHandler.Ammo > 0)
+    //    {
+    //        Instantiate(enemyBullet, gameObject.transform.position, gameObject.transform.rotation);
+    //        lifeHandler.UseAmmo();
+    //        _lastShot = Time.time;
+    //    }
+    //}
 
     private void MoveTo(GameObject go)
     {

@@ -9,19 +9,6 @@ public class Action_MoveToPlayer : Action_Base
         new System.Type[] { typeof(Goal_Attack) });
 
 
-    LifeHandler lifeHandler;
-    NavMeshAgent navMeshAgent;
-    GameObject player;
-    Sensor_LOSPlayer los;
-
-    void Awake()
-    {
-        lifeHandler = GetComponent<LifeHandler>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        los = GetComponent<Sensor_LOSPlayer>();
-
-    }
 
     public override List<System.Type> GetSupportedGoals()
     {
@@ -41,13 +28,16 @@ public class Action_MoveToPlayer : Action_Base
     public override void OnActivated(Goal_Base _linkedGoal)
     {
         navMeshAgent.SetDestination(player.transform.position);
-        LinkedGoal = _linkedGoal;
+        navMeshAgent.updateRotation = true;
+        navMeshAgent.updatePosition = true;
+        navMeshAgent.isStopped = false;
+        base.OnActivated(_linkedGoal);
     }
 
     public override void OnDeactivated()
     {
         navMeshAgent.SetDestination(gameObject.transform.position);
-        LinkedGoal = null;
+        base.OnDeactivated();
     }
 
 

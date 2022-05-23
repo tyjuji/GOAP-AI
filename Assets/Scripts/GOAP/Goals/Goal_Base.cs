@@ -1,16 +1,23 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Goal_Base : MonoBehaviour, IGoal
 {
-    //protected CharacterAgent Agent;
-    //protected AwarenessSystem Sensors;
     protected GOAPUI DebugUI;
     protected Action_Base LinkedAction;
 
+
+    protected LifeHandler lifeHandler;
+    protected NavMeshAgent navMeshAgent;
+    protected GameObject player;
+    protected Sensor_LOSPlayer los;
+
     void Awake()
     {
-        //Agent = GetComponent<CharacterAgent>();
-        //Sensors = GetComponent<AwarenessSystem>();
+        lifeHandler = GetComponent<LifeHandler>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        los = GetComponent<Sensor_LOSPlayer>();
     }
 
     void Start()

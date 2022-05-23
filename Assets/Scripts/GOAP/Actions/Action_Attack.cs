@@ -8,21 +8,14 @@ public class Action_Attack : Action_Base
     List<System.Type> SupportedGoals = new List<System.Type>(
             new System.Type[] { typeof(Goal_Attack) });
 
-
-    LifeHandler lifeHandler;
-    NavMeshAgent navMeshAgent;
-    GameObject player;
-
-    void Awake()
-    {
-        lifeHandler = GetComponent<LifeHandler>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
-
     public override List<System.Type> GetSupportedGoals()
     {
         return SupportedGoals;
+    }
+
+    public override bool CanRun()
+    {
+        return los.CanSeePlayer;
     }
 
 
@@ -33,8 +26,9 @@ public class Action_Attack : Action_Base
 
     public override void OnTick()
     {
-        navMeshAgent.SetDestination(player.transform.position);
-        navMeshAgent.Move(Vector3.zero);
+        navMeshAgent.isStopped = true;
+        transform.LookAt(player.transform.position);
+        lifeHandler.Shoot();
     }
 }
 

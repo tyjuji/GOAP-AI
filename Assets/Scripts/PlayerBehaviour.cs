@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
 
-    public GameObject playerBullet;
+    //public GameObject playerBullet;
     public int walkSpeed = 10;
 
     CharacterController charCtrl;
@@ -47,15 +47,16 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (lifeHandler.Ammo > 0)
-            {
-                Instantiate(playerBullet, gameObject.transform.position, gameObject.transform.rotation);
-                lifeHandler.UseAmmo();
-            }
-            else
-            {
-                Debug.Log("No ammo left)");
-            }
+            //if (lifeHandler.Ammo > 0)
+            //{
+            //    Instantiate(playerBullet, gameObject.transform.position, gameObject.transform.rotation);
+            //    lifeHandler.UseAmmo();
+            //}
+            //else
+            //{
+            //    Debug.Log("No ammo left)");
+            //}
+            lifeHandler.Shoot();
         }
     }
 

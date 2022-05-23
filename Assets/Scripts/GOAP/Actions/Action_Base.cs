@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Action_Base : MonoBehaviour
 {
-    //protected CharacterAgent Agent;
-    //protected AwarenessSystem Sensors;
     protected Goal_Base LinkedGoal;
+
+
+    protected LifeHandler lifeHandler;
+    protected NavMeshAgent navMeshAgent;
+    protected GameObject player;
+    protected Sensor_LOSPlayer los;
 
     void Awake()
     {
-        //Agent = GetComponent<CharacterAgent>();
-        //Sensors = GetComponent<AwarenessSystem>();
+        lifeHandler = GetComponent<LifeHandler>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        los = GetComponent<Sensor_LOSPlayer>();
     }
 
     public virtual List<System.Type> GetSupportedGoals()

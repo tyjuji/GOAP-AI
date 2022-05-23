@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LifeHandler : MonoBehaviour
 {
+    public GameObject Bullet;
     public int startingHealth = 15;
     public int startingAmmo = 30;
 
@@ -21,6 +22,8 @@ public class LifeHandler : MonoBehaviour
     }
 
     GameObject shield;
+    private float _lastShot;
+    
 
 
     // Start is called before the first frame update
@@ -86,8 +89,18 @@ public class LifeHandler : MonoBehaviour
         }
     }
 
-    public void UseAmmo()
+    //public void UseAmmo()
+    //{
+    //    Ammo--;
+    //}
+
+    public void Shoot()
     {
-        Ammo--;
+        if (Time.time > _lastShot + 0.25f && Ammo > 0)
+        {
+            Instantiate(Bullet, gameObject.transform.position, gameObject.transform.rotation);
+            Ammo--;
+            _lastShot = Time.time;
+        }
     }
 }

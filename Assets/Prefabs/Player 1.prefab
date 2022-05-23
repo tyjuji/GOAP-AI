@@ -135,7 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886a450fe5dcadc47975789936c0ed28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBullet: {fileID: 7147048840871334558, guid: c80054e0d9a046e45aa274d668eaf7e5, type: 3}
   walkSpeed: 20
 --- !u!208 &4763363357019068707
 NavMeshObstacle:
@@ -181,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb92fbde36081a546b05bdd0db66d7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Bullet: {fileID: 7147048840871334558, guid: c80054e0d9a046e45aa274d668eaf7e5, type: 3}
   startingHealth: 15
   startingAmmo: 30
 --- !u!1 &4763363356114282239
