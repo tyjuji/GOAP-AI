@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,12 +9,13 @@ public class EnemyBehaviour : MonoBehaviour
     public GameObject enemyBullet;
 
 
-    //int walkSpeed = 5;
-
     NavMeshAgent navMeshAgent;
     LifeHandler lifeHandler;
     GameObject player;
     Rigidbody rb;
+    GameObject[] ammoPickups;
+    GameObject[] healthPickups;
+
 
     float _lastShot = 0;
 
@@ -25,17 +28,35 @@ public class EnemyBehaviour : MonoBehaviour
         rb = navMeshAgent.GetComponent<Rigidbody>();
         lifeHandler = GetComponent<LifeHandler>();
 
+        ammoPickups = GameObject.FindGameObjectsWithTag("Ammo");
+        healthPickups = GameObject.FindGameObjectsWithTag("Health");
 
         //navMeshAgent.updatePosition = false;
         //navMeshAgent.updateRotation = false;
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        CharacterMovement();
-        if (LineOfSight())
+        if (lifeHandler.Health <= 5)
+        {
+            // Get more health
+            var nearestHealth = FindNearestActive(healthPickups);
+            MoveTo(nearestHealth);
+        }
+        else if (lifeHandler.Ammo > 0)
+        {
+            MoveTo(player);
+        }
+        else
+        {
+            // Get more ammo
+            var nearestAmmo = FindNearestActive(ammoPickups);
+            MoveTo(nearestAmmo);
+        }
+
+
+        if (LineOfSight() && lifeHandler.Ammo > 0)
         {
             navMeshAgent.updateRotation = false;
             transform.LookAt(player.transform.position);
@@ -46,7 +67,36 @@ public class EnemyBehaviour : MonoBehaviour
         {
             navMeshAgent.updateRotation = true;
         }
+    }
+
+    GameObject FindNearestActive(GameObject[] gos)
+    {
+        List<GameObject> actives = new();
+
+        foreach (var item in gos)
+        {
+            if (item.activeSelf)
+            {
+                actives.Add(item);
+            }
+        }
+
+        float distance = Mathf.Infinity;
+        GameObject closest = null;
+
+        foreach (GameObject go in actives)
+        {
+            Vector3 diff = go.transform.position - gameObject.transform.position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
         
+        // Hack to make sure we always have a target.
+        return closest != null ? closest : player;
     }
 
     bool LineOfSight()
@@ -57,13 +107,13 @@ public class EnemyBehaviour : MonoBehaviour
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
 
-        if(!Physics.Linecast(transform.position, player.transform.position, layerMask))
+        if (!Physics.Linecast(transform.position, player.transform.position, layerMask))
         {
             return true;
         }
         return false;
     }
-    
+
     private void Shooting()
     {
         if (Time.time > _lastShot + 0.3f && lifeHandler.Ammo > 0)
@@ -74,9 +124,9 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void CharacterMovement()
+    private void MoveTo(GameObject go)
     {
-        navMeshAgent.SetDestination(player.transform.position);
+        navMeshAgent.SetDestination(go.transform.position);
         //rb.AddForce(navMeshAgent.desiredVelocity);
         navMeshAgent.Move(Vector3.zero);
     }

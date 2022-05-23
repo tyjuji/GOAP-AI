@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,16 +13,16 @@ public class UICanvasHandler : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        Debug.Log(player);
+        //Debug.Log(player);
         lifeHandler = player.GetComponent<LifeHandler>();
-        Debug.Log(lifeHandler);
+        //Debug.Log(lifeHandler);
 
         ammoText = GameObject.Find("Ammo Text").GetComponent<TextMeshProUGUI>();
-        Debug.Log(ammoText);
+        //Debug.Log(ammoText);
         healthText = GameObject.Find("Health Text").GetComponent<TextMeshProUGUI>();
 
         ammoText.text = "lol";
-        Debug.Log(ammoText.text);
+        //Debug.Log(ammoText.text);
         UpdateText();
     }
 

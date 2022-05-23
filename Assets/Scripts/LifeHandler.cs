@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LifeHandler : MonoBehaviour
@@ -7,8 +6,21 @@ public class LifeHandler : MonoBehaviour
     public int startingHealth = 15;
     public int startingAmmo = 30;
 
+    public const float shieldCooldown = 10f;
+    public const int shieldDuration = 5;
+
+
     public int Health { get; private set; }
     public int Ammo { get; private set; }
+
+    private float _shieldLastUse = -shieldCooldown;
+
+    public bool ShieldAvailable
+    {
+        get { return Time.time > _shieldLastUse + shieldCooldown; }
+    }
+
+    GameObject shield;
 
 
     // Start is called before the first frame update
@@ -16,13 +28,39 @@ public class LifeHandler : MonoBehaviour
     {
         Health = startingHealth;
         Ammo = startingAmmo;
+
+        shield = transform.Find("Shield").gameObject;
+        shield.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
+    public void ShieldOn()
+    {
+        if (ShieldAvailable)
+        {
+            StartCoroutine(ShieldOff());
+        }
+        else
+        {
+            Debug.Log("Shield not ready yet");
+        }
+    }
+
+    private IEnumerator ShieldOff()
+    {
+        _shieldLastUse = Time.time + shieldDuration;
+        shield.SetActive(true);
+
+        yield return new WaitForSeconds(shieldDuration);
+        shield.SetActive(false);
+
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {

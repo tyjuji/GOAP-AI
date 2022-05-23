@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class Goal_Idle : MonoBehaviour
+public class Goal_Idle : Goal_Base
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public int Priority = 10;
 
+    public override int CalculatePriority()
+    {
+        return Priority;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override bool CanRun()
     {
-
+        return true;
     }
 }
