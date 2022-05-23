@@ -19,6 +19,11 @@ public class Action_Base : MonoBehaviour
         return null;
     }
 
+    public virtual bool CanRun()
+    {
+        return true;
+    }
+
     public virtual float GetCost()
     {
         return 0f;

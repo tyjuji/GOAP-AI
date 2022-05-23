@@ -40,6 +40,9 @@ public class GOAPPlanner : MonoBehaviour
                 if (!action.GetSupportedGoals().Contains(goal.GetType()))
                     continue;
 
+                if (!action.CanRun())
+                    continue;
+
                 // found a suitable action
                 if (candidateAction == null || action.GetCost() < candidateAction.GetCost())
                     candidateAction = action;

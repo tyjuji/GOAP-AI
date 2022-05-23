@@ -16,7 +16,7 @@ public class Goal_Base : MonoBehaviour, IGoal
     void Start()
     {
         DebugUI = FindObjectOfType<GOAPUI>();
-        Debug.Log(DebugUI);
+        //Debug.Log(DebugUI);
     }
 
     void Update()
@@ -24,6 +24,7 @@ public class Goal_Base : MonoBehaviour, IGoal
         OnTickGoal();
 
         DebugUI.UpdateGoal(this, GetType().Name, LinkedAction ? "Running" : "Paused", CalculatePriority());
+        //Debug.Log(this);
     }
 
     public virtual int CalculatePriority()

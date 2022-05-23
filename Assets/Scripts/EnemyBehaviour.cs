@@ -5,14 +5,12 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-
     public GameObject enemyBullet;
 
 
     NavMeshAgent navMeshAgent;
     LifeHandler lifeHandler;
     GameObject player;
-    Rigidbody rb;
     GameObject[] ammoPickups;
     GameObject[] healthPickups;
 
@@ -25,7 +23,6 @@ public class EnemyBehaviour : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-        rb = navMeshAgent.GetComponent<Rigidbody>();
         lifeHandler = GetComponent<LifeHandler>();
 
         ammoPickups = GameObject.FindGameObjectsWithTag("Ammo");

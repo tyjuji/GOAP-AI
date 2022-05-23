@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LOSPlayer : MonoBehaviour
+public class Sensor_LOSPlayer : MonoBehaviour
 {
     public bool CanSeePlayer;
 
