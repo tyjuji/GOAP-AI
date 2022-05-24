@@ -6,28 +6,14 @@ using UnityEngine.UI;
 
 public class GoalUI : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI Name;
-    [SerializeField] Slider Priority;
-    [SerializeField] TextMeshProUGUI Status;
+    public TextMeshProUGUI Name;
+    public Slider Priority;
+    public TextMeshProUGUI Status;
 
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateGoalInfo(string name, string status, float priority)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void UpdateGoalInfo(string _name, string _status, float _priority)
-    {
-        Name.text = _name;
-        Status.text = _status;
-        Priority.value = _priority;
-
-        //Debug.Log(Name.text + Status.text + Priority.value);
+        Name.text = name;
+        Status.text = status;
+        Priority.value = priority;
     }
 }

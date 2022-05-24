@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Goal_Base : MonoBehaviour, IGoal
+public abstract class Goal_Base : MonoBehaviour
 {
     protected GOAPUI DebugUI;
     protected Action_Base LinkedAction;

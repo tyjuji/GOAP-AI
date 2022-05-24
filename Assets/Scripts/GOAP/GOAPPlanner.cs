@@ -10,45 +10,59 @@ public class GOAPPlanner : MonoBehaviour
 
     void Awake()
     {
+        // Get all goals and actions on an object
         Goals = GetComponents<Goal_Base>();
         Actions = GetComponents<Action_Base>();
     }
 
     void Update()
     {
+        // Start with null
         Goal_Base bestGoal = null;
         Action_Base bestAction = null;
 
-        // find the highest priority goal that can be activated
+        // We want to find the highest priority.
         foreach (var goal in Goals)
         {
-            // first tick the goal
+            // We need to tick the goal, before we can check it.
             goal.OnTickGoal();
 
-            // can it run?
+            // We need to check if a goal can run and therefore is valid.
             if (!goal.CanRun())
+            {
                 continue;
+            }
 
-            // is it a worse priority?
+            // Is the current goal better or worse priority than the bestGoal?
             if (!(bestGoal == null || goal.CalculatePriority() > bestGoal.CalculatePriority()))
+            {
                 continue;
+            }
 
-            // find the best cost action
+            // Having found a goal, we now want to find the action with the lowest cost.
             Action_Base candidateAction = null;
             foreach (var action in Actions)
             {
+                // Checking if our goal is part of the supportedgoals for the action
                 if (!action.GetSupportedGoals().Contains(goal.GetType()))
+                {
                     continue;
+                }
 
+                // Added CanRun to actions as well. Could be done with cost, but I think this is easier.
                 if (!action.CanRun())
+                {
                     continue;
+                }
 
-                // found a suitable action
+                // Is the action better or worse cost than the candidate?
                 if (candidateAction == null || action.GetCost() < candidateAction.GetCost())
+                {
                     candidateAction = action;
+                }
             }
 
-            // did we find an action?
+            // If we found an action above, we use it as the best action.
             if (candidateAction != null)
             {
                 bestGoal = goal;
@@ -56,20 +70,26 @@ public class GOAPPlanner : MonoBehaviour
             }
         }
 
-        // if no current goal
+        // If we don't have a goal active, we set the best one
         if (ActiveGoal == null)
         {
             ActiveGoal = bestGoal;
             ActiveAction = bestAction;
 
-            if (ActiveGoal != null)
+            if (ActiveGoal != null) 
+            {
                 ActiveGoal.OnGoalActivated(ActiveAction);
+            }
+
             if (ActiveAction != null)
+            {
                 ActiveAction.OnActivated(ActiveGoal);
-        } // no change in goal?
+            }
+                
+        } // If the active goal doesn't change, we check the action.
         else if (ActiveGoal == bestGoal)
         {
-            // action changed?
+            // If the active action isn't the best one, we change it.
             if (ActiveAction != bestAction)
             {
                 ActiveAction.OnDeactivated();
@@ -78,7 +98,7 @@ public class GOAPPlanner : MonoBehaviour
 
                 ActiveAction.OnActivated(ActiveGoal);
             }
-        } // new goal or no valid goal
+        } // If we don't have a goal or it's not the best one, we change it.
         else if (ActiveGoal != bestGoal)
         {
             ActiveGoal.OnGoalDeactivated();
@@ -88,13 +108,22 @@ public class GOAPPlanner : MonoBehaviour
             ActiveAction = bestAction;
 
             if (ActiveGoal != null)
+            {
                 ActiveGoal.OnGoalActivated(ActiveAction);
+            }
+                
             if (ActiveAction != null)
+            {
                 ActiveAction.OnActivated(ActiveGoal);
+            }
+                
         }
 
-        // tick the action
+        // Finally we have an action active, so we run it.
         if (ActiveAction != null)
+        {
             ActiveAction.OnTick();
+        }
+            
     }
 }

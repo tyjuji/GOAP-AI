@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LifeHandler : MonoBehaviour
@@ -10,19 +11,43 @@ public class LifeHandler : MonoBehaviour
     public const float shieldCooldown = 10f;
     public const int shieldDuration = 5;
 
+    [HideInInspector]
+    public GameObject[] ammoPickups;
+    [HideInInspector]
+    public GameObject[] healthPickups;
+
+
+    GameObject shield;
+    private float _lastShot;
 
     public int Health { get; private set; }
     public int Ammo { get; private set; }
 
     private float _shieldLastUse = -shieldCooldown;
+    bool _shieldUp = false;
 
     public bool ShieldAvailable
     {
         get { return Time.time > _shieldLastUse + shieldCooldown; }
     }
 
-    GameObject shield;
-    private float _lastShot;
+    public bool AmmoAvailable
+    {
+        get { 
+            var gos = FindNearestActive(ammoPickups);
+            return gos != null;
+        }
+    }
+
+    public bool HealthAvailable
+    {
+        get
+        {
+            var gos = FindNearestActive(healthPickups);
+            return gos != null;
+        }
+    }
+
     
 
 
@@ -31,6 +56,9 @@ public class LifeHandler : MonoBehaviour
     {
         Health = startingHealth;
         Ammo = startingAmmo;
+
+        ammoPickups = GameObject.FindGameObjectsWithTag("Ammo");
+        healthPickups = GameObject.FindGameObjectsWithTag("Health");
 
         shield = transform.Find("Shield").gameObject;
         shield.SetActive(false);
@@ -42,6 +70,37 @@ public class LifeHandler : MonoBehaviour
 
     }
 
+
+
+    public GameObject FindNearestActive(GameObject[] gos)
+    {
+        List<GameObject> actives = new();
+
+        foreach (var item in gos)
+        {
+            if (item.activeSelf)
+            {
+                actives.Add(item);
+            }
+        }
+
+        float distance = Mathf.Infinity;
+        GameObject closest = null;
+
+        foreach (GameObject go in actives)
+        {
+            Vector3 diff = go.transform.position - gameObject.transform.position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+
+        return closest;
+    }
+
     public void ShieldOn()
     {
         if (ShieldAvailable)
@@ -50,7 +109,7 @@ public class LifeHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("Shield not ready yet");
+            //Debug.Log("Shield not ready yet");
         }
     }
 
@@ -58,8 +117,9 @@ public class LifeHandler : MonoBehaviour
     {
         _shieldLastUse = Time.time + shieldDuration;
         shield.SetActive(true);
-
+        _shieldUp = true;
         yield return new WaitForSeconds(shieldDuration);
+        _shieldUp = false;
         shield.SetActive(false);
 
     }
@@ -96,7 +156,7 @@ public class LifeHandler : MonoBehaviour
 
     public void Shoot()
     {
-        if (Time.time > _lastShot + 0.25f && Ammo > 0)
+        if (Time.time > _lastShot + 0.25f && Ammo > 0 && !_shieldUp)
         {
             Instantiate(Bullet, gameObject.transform.position, gameObject.transform.rotation);
             Ammo--;

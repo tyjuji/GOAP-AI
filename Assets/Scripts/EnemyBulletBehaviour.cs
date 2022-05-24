@@ -22,7 +22,7 @@ public class EnemyBulletBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Shot player");
+            //Debug.Log("Shot player");
             other.GetComponent<LifeHandler>().LoseHealth();
             Destroy(gameObject);
         }
@@ -36,7 +36,7 @@ public class EnemyBulletBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log("collided obstacle");
+            //Debug.Log("collided obstacle");
             Destroy(gameObject);
         }
     }

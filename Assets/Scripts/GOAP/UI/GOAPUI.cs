@@ -9,27 +9,15 @@ public class GOAPUI : MonoBehaviour
 
     Dictionary<MonoBehaviour, GoalUI> DisplayedGoals = new Dictionary<MonoBehaviour, GoalUI>();
 
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateGoal(MonoBehaviour goal, string name, string status, float priority)
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void UpdateGoal(MonoBehaviour goal, string _name, string _status, float _priority)
-    {
-        // add if not present
+        // Add goal to dictionary, if not already in
         if (!DisplayedGoals.ContainsKey(goal))
         {
             DisplayedGoals[goal] = Instantiate(GoalPrefab, Vector3.zero, Quaternion.identity, GoalRoot).GetComponent<GoalUI>();
-            //Debug.Log(goal);
         }
             
-
-        DisplayedGoals[goal].UpdateGoalInfo(_name, _status, _priority);
+        // Update the goal as it gets calculated.
+        DisplayedGoals[goal].UpdateGoalInfo(name, status, priority);
     }
 }

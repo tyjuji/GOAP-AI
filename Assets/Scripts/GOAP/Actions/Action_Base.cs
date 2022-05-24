@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Action_Base : MonoBehaviour
+public abstract class Action_Base : MonoBehaviour
 {
     protected Goal_Base LinkedGoal;
 
