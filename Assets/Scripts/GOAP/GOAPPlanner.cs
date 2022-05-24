@@ -10,7 +10,7 @@ public class GOAPPlanner : MonoBehaviour
 
     void Awake()
     {
-        // Get all goals and actions on an object
+        // Get all goals and actions on an object (the npc)
         Goals = GetComponents<Goal_Base>();
         Actions = GetComponents<Action_Base>();
     }

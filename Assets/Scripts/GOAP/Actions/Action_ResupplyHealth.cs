@@ -26,8 +26,7 @@ public class Action_ResupplyHealth : Action_Base
     public override void OnActivated(Goal_Base _linkedGoal)
     {
         destination = lifeHandler.FindNearestActive(lifeHandler.healthPickups);
-
-        Debug.Log(destination);
+        navMeshAgent.SetDestination(destination.transform.position);
 
         navMeshAgent.updatePosition = true;
         navMeshAgent.updateRotation = true;
@@ -46,6 +45,7 @@ public class Action_ResupplyHealth : Action_Base
         if(destination == null)
         {
             destination = lifeHandler.FindNearestActive(lifeHandler.healthPickups);
+            navMeshAgent.SetDestination(destination.transform.position);
         }
 
         if (los.CanSeePlayer)
@@ -53,7 +53,7 @@ public class Action_ResupplyHealth : Action_Base
             lifeHandler.ShieldOn();
         }
 
-        Debug.Log(destination);
+        navMeshAgent.SetDestination(destination.transform.position);
         navMeshAgent.Move(Vector3.zero);
     }
 }
