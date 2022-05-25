@@ -17,7 +17,6 @@ public class PlayerBulletBehaviour : MonoBehaviour
         transform.Translate(Vector3.forward * ProjectileSpeed * Time.deltaTime);
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
