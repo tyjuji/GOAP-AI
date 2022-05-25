@@ -30,13 +30,13 @@ public class PlayerBulletBehaviour : MonoBehaviour
         }
         else if (other.CompareTag("Enemy"))
         {
-            Debug.Log("collided enemy");
+            //Debug.Log("collided enemy");
             other.GetComponent<LifeHandler>().LoseHealth();
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("collided obstacle");
+            //Debug.Log("collided obstacle");
             Destroy(gameObject);
         }
     }

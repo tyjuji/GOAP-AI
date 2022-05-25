@@ -29,7 +29,7 @@ public class Action_ResupplyAmmo : Action_Base
         destination = lifeHandler.FindNearestActive(lifeHandler.ammoPickups);
         navMeshAgent.SetDestination(destination.transform.position);
 
-        Debug.Log(destination);
+        //Debug.Log(destination);
 
         navMeshAgent.updatePosition = true;
         navMeshAgent.updateRotation = true;
@@ -46,7 +46,7 @@ public class Action_ResupplyAmmo : Action_Base
 
     public override void OnTick()
     {
-        if (destination == null)
+        if (destination == null || !destination.activeSelf)
         {
             destination = lifeHandler.FindNearestActive(lifeHandler.ammoPickups);
             navMeshAgent.SetDestination(destination.transform.position);
@@ -57,7 +57,7 @@ public class Action_ResupplyAmmo : Action_Base
             lifeHandler.ShieldOn();
         }
 
-        Debug.Log(destination);
+        //Debug.Log(destination);
 
         navMeshAgent.Move(Vector3.zero);
     }

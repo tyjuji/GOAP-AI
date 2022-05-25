@@ -17,8 +17,9 @@ public class Action_Idle : Action_Base
     public override void OnActivated(Goal_Base _linkedGoal)
     {
         navMeshAgent.SetDestination(gameObject.transform.position);
+        navMeshAgent.Move(Vector3.zero);
         navMeshAgent.updateRotation = false;
-        //navMeshAgent.isStopped = true;
+        navMeshAgent.isStopped = true;
 
         base.OnActivated(_linkedGoal);
     }
@@ -30,7 +31,6 @@ public class Action_Idle : Action_Base
 
     public override void OnTick()
     {
-        navMeshAgent.Move(Vector3.zero);
         transform.Rotate(Vector3.up * RotateSpeed * Time.deltaTime);
     }
 }

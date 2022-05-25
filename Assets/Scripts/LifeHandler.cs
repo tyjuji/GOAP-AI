@@ -15,8 +15,10 @@ public class LifeHandler : MonoBehaviour
     public GameObject[] ammoPickups;
     [HideInInspector]
     public GameObject[] healthPickups;
+    [HideInInspector]
+    public GameObject[] retreats;
 
-
+    GameObject player;
     GameObject shield;
     private float _lastShot;
 
@@ -48,8 +50,6 @@ public class LifeHandler : MonoBehaviour
         }
     }
 
-    
-
 
     // Start is called before the first frame update
     void Start()
@@ -57,8 +57,11 @@ public class LifeHandler : MonoBehaviour
         Health = startingHealth;
         Ammo = startingAmmo;
 
+        player = GameObject.FindGameObjectWithTag("Player");
+
         ammoPickups = GameObject.FindGameObjectsWithTag("Ammo");
         healthPickups = GameObject.FindGameObjectsWithTag("Health");
+        retreats = GameObject.FindGameObjectsWithTag("Retreat");
 
         shield = transform.Find("Shield").gameObject;
         shield.SetActive(false);
@@ -67,10 +70,8 @@ public class LifeHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+ 
     }
-
-
 
     public GameObject FindNearestActive(GameObject[] gos)
     {
@@ -99,6 +100,36 @@ public class LifeHandler : MonoBehaviour
         }
 
         return closest;
+    }
+
+    public GameObject FindFurthestFromPlayer(GameObject[] gos)
+    {
+        //List<GameObject> actives = new();
+
+        //foreach (var item in gos)
+        //{
+        //    if (item.activeSelf)
+        //    {
+        //        actives.Add(item);
+        //    }
+        //}
+
+        float distance = Mathf.NegativeInfinity;
+        GameObject furthest = null;
+
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - player.transform.position;
+            float curDistance = diff.sqrMagnitude;
+            //Debug.Log(curDistance);
+            if (curDistance > distance)
+            {
+                furthest = go;
+                distance = curDistance;
+            }
+        }
+
+        return furthest;
     }
 
     public void ShieldOn()

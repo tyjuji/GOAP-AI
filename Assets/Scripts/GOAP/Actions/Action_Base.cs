@@ -7,7 +7,6 @@ public abstract class Action_Base : MonoBehaviour
 {
     protected Goal_Base LinkedGoal;
 
-
     protected LifeHandler lifeHandler;
     protected NavMeshAgent navMeshAgent;
     protected GameObject player;

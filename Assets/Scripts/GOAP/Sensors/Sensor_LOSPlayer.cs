@@ -4,7 +4,10 @@ public class Sensor_LOSPlayer : MonoBehaviour
 {
     public bool CanSeePlayer;
 
-    float? _losLastTime = null;
+    float? losLastTime = null;
+
+    public float dangerFactor = 0f;
+    public float dangerRate = 10f;
 
     GameObject player;
 
@@ -17,27 +20,45 @@ public class Sensor_LOSPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (LineOfSight() && _losLastTime == null)
+        var hasLOS = LineOfSight();
+
+        if (hasLOS && losLastTime == null)
         {
-            _losLastTime = Time.time;
+            losLastTime = Time.time;
         }
-        else if (LineOfSight() && Time.time > _losLastTime + 0.25f)
+        else if (hasLOS && Time.time > losLastTime + 0.25f)
         {
             CanSeePlayer = true;
+
+            //if(dangerFactor < 0f)
+            //{
+            //    dangerFactor = 0f;
+            //}
         }
-        else if (!LineOfSight())
+        else if (!hasLOS)
         {
-            _losLastTime = null;
+            losLastTime = null;
             CanSeePlayer = false;
         }
-        //Debug.Log(_losLastTime);
+
+        if (hasLOS)
+        {
+            dangerFactor += dangerRate * Time.deltaTime;
+            Debug.Log(dangerFactor);
+        }
+        else
+        {
+            dangerFactor -= dangerRate * 1.2f * Time.deltaTime;
+        }
+
+
     }
 
     bool LineOfSight()
     {
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 8 | 1 << 7;
-        //Debug.Log(layerMask);
+
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;

@@ -6,7 +6,6 @@ public abstract class Goal_Base : MonoBehaviour
     protected GOAPUI DebugUI;
     protected Action_Base LinkedAction;
 
-
     protected LifeHandler lifeHandler;
     protected NavMeshAgent navMeshAgent;
     protected GameObject player;
@@ -23,15 +22,13 @@ public abstract class Goal_Base : MonoBehaviour
     void Start()
     {
         DebugUI = FindObjectOfType<GOAPUI>();
-        //Debug.Log(DebugUI);
     }
 
     void Update()
     {
-        OnTickGoal();
+        //OnTickGoal();
 
         DebugUI.UpdateGoal(this, GetType().Name, LinkedAction ? "Running" : "Paused", CalculatePriority());
-        //Debug.Log(this);
     }
 
     public virtual int CalculatePriority()
@@ -42,11 +39,6 @@ public abstract class Goal_Base : MonoBehaviour
     public virtual bool CanRun()
     {
         return false;
-    }
-
-    public virtual void OnTickGoal()
-    {
-
     }
 
     public virtual void OnGoalActivated(Action_Base _linkedAction)

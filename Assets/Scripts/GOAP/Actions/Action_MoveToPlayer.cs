@@ -8,7 +8,8 @@ public class Action_MoveToPlayer : Action_Base
     List<System.Type> SupportedGoals = new List<System.Type>(
         new System.Type[] { typeof(Goal_Attack) });
 
-
+    //float firstSeen = 0f;
+    //private float lastSeen = 0f;
 
     public override List<System.Type> GetSupportedGoals()
     {
@@ -17,12 +18,14 @@ public class Action_MoveToPlayer : Action_Base
 
     public override bool CanRun()
     {
-        return Vector3.Distance(transform.position, player.transform.position) > 100f || !los.CanSeePlayer;
+        return !los.CanSeePlayer;
     }
 
     public override float GetCost()
     {
-        return 1 / (lifeHandler.startingHealth / lifeHandler.Health * 100f);
+        //return 1 / (lifeHandler.startingHealth / lifeHandler.Health * 100f);
+        //return lifeHandler.Health / lifeHandler.startingHealth * 100f;
+        return (lifeHandler.startingHealth - lifeHandler.Health) / lifeHandler.startingHealth * 100;
     }
 
     public override void OnActivated(Goal_Base _linkedGoal)
@@ -31,15 +34,16 @@ public class Action_MoveToPlayer : Action_Base
         navMeshAgent.updateRotation = true;
         navMeshAgent.updatePosition = true;
         navMeshAgent.isStopped = false;
+
         base.OnActivated(_linkedGoal);
     }
 
     public override void OnDeactivated()
     {
         navMeshAgent.SetDestination(gameObject.transform.position);
+
         base.OnDeactivated();
     }
-
 
     public override void OnTick()
     {

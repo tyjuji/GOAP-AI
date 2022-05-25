@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UICanvasHandler : MonoBehaviour
 {
@@ -8,32 +9,37 @@ public class UICanvasHandler : MonoBehaviour
 
     GameObject player;
     LifeHandler lifeHandler;
+    Image shield;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        //Debug.Log(player);
         lifeHandler = player.GetComponent<LifeHandler>();
-        //Debug.Log(lifeHandler);
 
         ammoText = GameObject.Find("Ammo Text").GetComponent<TextMeshProUGUI>();
-        //Debug.Log(ammoText);
         healthText = GameObject.Find("Health Text").GetComponent<TextMeshProUGUI>();
+        shield = GameObject.Find("Shield").GetComponent<Image>();
 
-        ammoText.text = "lol";
-        //Debug.Log(ammoText.text);
-        UpdateText();
+        UpdateUI();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateText();
+        UpdateUI();
     }
 
-    void UpdateText()
+    void UpdateUI()
     {
+        if (lifeHandler.ShieldAvailable)
+        {
+            shield.enabled = true;
+        }
+        else
+        {
+            shield.enabled = false;
+        }
         ammoText.text = "Ammo: " + lifeHandler.Ammo;
         healthText.text = "Health: " + lifeHandler.Health;
     }

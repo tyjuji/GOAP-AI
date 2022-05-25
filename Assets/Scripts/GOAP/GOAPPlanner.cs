@@ -24,9 +24,6 @@ public class GOAPPlanner : MonoBehaviour
         // We want to find the highest priority.
         foreach (var goal in Goals)
         {
-            // We need to tick the goal, before we can check it.
-            goal.OnTickGoal();
-
             // We need to check if a goal can run and therefore is valid.
             if (!goal.CanRun())
             {
