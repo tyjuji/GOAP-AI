@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerBulletBehaviour : MonoBehaviour
 {
-
     public int ProjectileSpeed;
 
     // Start is called before the first frame update
