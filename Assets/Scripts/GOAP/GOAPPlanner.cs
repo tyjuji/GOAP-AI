@@ -121,6 +121,5 @@ public class GOAPPlanner : MonoBehaviour
         {
             ActiveAction.OnTick();
         }
-            
     }
 }

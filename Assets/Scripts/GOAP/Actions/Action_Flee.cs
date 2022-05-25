@@ -15,8 +15,6 @@ public class Action_Flee : Action_Base
 
     public override float GetCost()
     {
-        //Debug.Log(los.dangerFactor);
-
         return (lifeHandler.Health / lifeHandler.startingHealth * 100f) + 30f - los.dangerFactor;
     }
 
@@ -33,8 +31,6 @@ public class Action_Flee : Action_Base
         navMeshAgent.updateRotation = true;
         navMeshAgent.updatePosition = true;
         navMeshAgent.isStopped = false;
-
-        //navMeshAgent.stoppingDistance = 2f;
 
         base.OnActivated(_linkedGoal);
     }

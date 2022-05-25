@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Action_Idle : Action_Base
 {
@@ -22,6 +20,11 @@ public class Action_Idle : Action_Base
         navMeshAgent.isStopped = true;
 
         base.OnActivated(_linkedGoal);
+    }
+
+    public override bool CanRun()
+    {
+        return true;
     }
 
     public override float GetCost()

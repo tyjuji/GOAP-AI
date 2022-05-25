@@ -29,11 +29,6 @@ public class Sensor_LOSPlayer : MonoBehaviour
         else if (hasLOS && Time.time > losLastTime + 0.25f)
         {
             CanSeePlayer = true;
-
-            //if(dangerFactor < 0f)
-            //{
-            //    dangerFactor = 0f;
-            //}
         }
         else if (!hasLOS)
         {
@@ -65,6 +60,7 @@ public class Sensor_LOSPlayer : MonoBehaviour
 
         if (!Physics.Linecast(transform.position, player.transform.position, layerMask))
         {
+            Debug.DrawLine(transform.position, player.transform.position, Color.red);
             return true;
         }
         return false;
