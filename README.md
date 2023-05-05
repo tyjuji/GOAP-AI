@@ -4,7 +4,7 @@ A project for exploring the implementation of Goal Oriented Action Planning AI i
 
 
 
-# Controls:
+## Controls:
 
 WASD to move.
 
@@ -14,7 +14,7 @@ Shoot with left mouse click.
 
 Spacebar to activate shield.
 
-# Gameplay
+## Gameplay
 
 Pickup health and ammo orbs by walking over them.
 
